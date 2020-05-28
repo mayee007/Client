@@ -17,7 +17,7 @@ src/test/InfoClient.postman_collection.json \
 -r htmlextra \
 --reporter-htmlextra-export newman/index.html 
  """ 
-	}
+	}, 
 	
 	stage ('publish reports') {
 	    publishHTML (target: [
