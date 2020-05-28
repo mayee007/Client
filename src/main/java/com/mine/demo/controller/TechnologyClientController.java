@@ -2,6 +2,7 @@ package com.mine.demo.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -31,15 +32,17 @@ public class TechnologyClientController {
 	String pathUrl = "/techs"; 
 	private Logger logger = LoggerFactory.getLogger(TechnologyClientController.class);
 	
+	@Autowired
+	RestTemplate restTemplate; 
+	
 	@GetMapping()
 	public ModelAndView getAllTechs() {
 		logger.info("inside TechnologyClientController().getAllTechs()");
 		logger.info("url = "+ baseUrl + pathUrl); 
 		
-		RestTemplate restTemplate = new RestTemplate();
 		Object[] objs = restTemplate.getForObject(baseUrl +pathUrl, Object[].class); 
-		
-        ModelAndView mv = new ModelAndView(); 
+
+		ModelAndView mv = new ModelAndView(); 
         mv.addObject("allTechs", objs); 
         mv.setViewName("techs/allTechs"); 
         
@@ -51,9 +54,7 @@ public class TechnologyClientController {
 		logger.info("inside TechnologyClientController().getTechnologyById()");
 		logger.info("url = "+ baseUrl + pathUrl + "/" +id); 
 		
-		RestTemplate restTemplate = new RestTemplate();
 		Object obj = restTemplate.getForObject(baseUrl +pathUrl+"/"+id, Object.class);
-		
 		
 		ModelAndView mv = new ModelAndView(); 
 		if (obj == null) {
@@ -80,7 +81,6 @@ public class TechnologyClientController {
 		logger.info("technology Type is " + tech.getTechnologyType());
 		logger.info("Category  is " + tech.getCategory());
 		
-		RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_JSON);
 	    JSONObject jsonObj = new JSONObject();
@@ -104,7 +104,6 @@ public class TechnologyClientController {
     public @ResponseBody ModelAndView deleteTechnology(@PathVariable int id) {
 		logger.info("inside TechnologyClientController().deleteTechnology(), id is "+id);
 		logger.info("delete path = " + baseUrl +pathUrl+ "/" + id);
-		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.delete(baseUrl +pathUrl+ "/" + id);
 		
 		Object[] objs = restTemplate.getForObject(baseUrl +pathUrl, Object[].class); 
@@ -122,9 +121,6 @@ public class TechnologyClientController {
 		logger.info("inside TechnologyClientController().updateTechnology(), name is "+name);
 		logger.info("url = "+ baseUrl + pathUrl); 
 		logger.info("name object to update = " + name);
-		
-		RestTemplate restTemplate = new RestTemplate();
-		//restTemplate.put(baseUrl +pathUrl, name);
 		
 		restTemplate.put(baseUrl +pathUrl , Technology.class, name);
 		Object[] objs = restTemplate.getForObject(baseUrl +pathUrl, Object[].class); 

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -41,12 +42,14 @@ public class ProblemClientController {
 	String pathUrl = "/problems"; 
 	private Logger logger = LoggerFactory.getLogger(ProblemClientController.class);
 	
+	@Autowired
+	RestTemplate restTemplate; 
+	
 	@GetMapping()
 	public ModelAndView getAllProblems() {
 		logger.info("inside ProblemClientController().getAllProblems()");
 		logger.info("url = "+ baseUrl + pathUrl); 
 		
-		RestTemplate restTemplate = new RestTemplate();
 		Object[] objs = restTemplate.getForObject(baseUrl +pathUrl, Object[].class); 
 		
         ModelAndView mv = new ModelAndView(); 
@@ -61,9 +64,7 @@ public class ProblemClientController {
 		logger.info("inside ProblemClientController().getProblemById()");
 		logger.info("url = "+ baseUrl + pathUrl + "/" +id); 
 		
-		RestTemplate restTemplate = new RestTemplate();
 		Object obj = restTemplate.getForObject(baseUrl +pathUrl+"/"+id, Object.class);
-		
 		
 		ModelAndView mv = new ModelAndView(); 
 		if (obj == null) {
@@ -110,7 +111,6 @@ public class ProblemClientController {
 
         HttpEntity<?> request = new HttpEntity<>(req_payload, headers);
         
-        RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Problem> response = restTemplate.postForEntity(baseUrl +pathUrl, request, Problem.class);
 		
 		logger.info(response.getBody().toString()); 
@@ -133,7 +133,7 @@ public class ProblemClientController {
     public @ResponseBody ModelAndView deleteProblem(@PathVariable int id) {
 		logger.info("inside ProblemClientController().deleteProblem(), id is "+id);
 		logger.info("delete path = " + baseUrl +pathUrl+ "/" + id);
-		RestTemplate restTemplate = new RestTemplate();
+	
 		restTemplate.delete(baseUrl +pathUrl+ "/" + id);
 		
 		Object[] objs = restTemplate.getForObject(baseUrl +pathUrl, Object[].class); 
@@ -145,23 +145,47 @@ public class ProblemClientController {
         return mv;         
     }
 	
-	@PutMapping("/{id}")
-    public @ResponseBody ModelAndView updateProblem(@PathVariable int id, 
-    				@ModelAttribute Problem name) {
-		logger.info("inside ProblemClientController().updateProblem(), name is "+name);
+	@PutMapping("/{problemId}")
+	public ModelAndView updateProblem(@PathVariable int problemId,
+			Map<String, Object> model, 
+			@RequestParam("technologyId") int technologyId, 
+			@RequestParam("problem") String problem, 
+			@RequestParam("reasonForProblem") String reasonForProblem,
+			@RequestParam("solution") String solution) {
+		logger.info("inside ProblemClientController().addProblem(), name is "+problem);
 		logger.info("url = "+ baseUrl + pathUrl); 
-		logger.info("name object to update = " + name);
 		
-		RestTemplate restTemplate = new RestTemplate();
-		//restTemplate.put(baseUrl +pathUrl, name);
+		logger.info("problem = " + problem);
+		logger.info("reasonForProblem = " + reasonForProblem);
+		logger.info("solution = "+ solution);
+		logger.info("technology ID = " + technologyId);
+		logger.info("problem ID = " + problemId);
 		
-		restTemplate.put(baseUrl +pathUrl , Problem.class, name);
-		Object[] objs = restTemplate.getForObject(baseUrl +pathUrl, Object[].class); 
-		
-        ModelAndView mv = new ModelAndView(); 
-        mv.addObject("allProblems", objs); 
-        mv.setViewName("problems/allProblems"); 
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
+        Map map = new HashMap<String, String>();
+        map.put("Content-Type", "application/json");
+
+        headers.setAll(map);
+
+        Map req_payload = new HashMap();
+        req_payload.put("id", problemId);
+        req_payload.put("technology", getTechnologyById(technologyId));
+        req_payload.put("problem", problem);
+        req_payload.put("reasonForProblem", reasonForProblem);
+        req_payload.put("solution", solution); 
+        req_payload.put("submitDate", new Date()); 
+        req_payload.put("modifiedDate", new Date()); 
+
+        HttpEntity<?> request = new HttpEntity<>(req_payload, headers);
         
+        restTemplate.put(baseUrl +pathUrl+"/"+problemId, request);
+		
+        // get all problems
+        Object[] objs = restTemplate.getForObject(baseUrl +pathUrl, Object[].class);
+        
+		ModelAndView mv = new ModelAndView(); 
+		mv.addObject("allProblems", objs); 
+		mv.setViewName("problems/allProblems");
         return mv; 
     }
 	
@@ -174,8 +198,7 @@ public class ProblemClientController {
         mv.setViewName("problems/addProblem"); 
         
         // get all technology as a list 
-        RestTemplate restTemplate = new RestTemplate();
-		Object[] objs = restTemplate.getForObject(baseUrl +"/techs", Object[].class); 
+        Object[] objs = restTemplate.getForObject(baseUrl +"/techs", Object[].class); 
 		
 		logger.info("all techs = " + objs.toString());
         mv.addObject("allTechs", objs); 

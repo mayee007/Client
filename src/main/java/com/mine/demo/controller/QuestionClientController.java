@@ -2,6 +2,7 @@ package com.mine.demo.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -32,12 +33,14 @@ public class QuestionClientController {
 	String pathUrl = "/questions"; 
 	private Logger logger = LoggerFactory.getLogger(QuestionClientController.class);
 	
+	@Autowired
+	RestTemplate restTemplate; 
+	
 	@GetMapping()
 	public ModelAndView getAllQuestions() {
 		logger.info("inside QuestionClientController().getAllQuestions()");
 		logger.info("url = "+ baseUrl + pathUrl); 
 		
-		RestTemplate restTemplate = new RestTemplate();
 		Object[] objs = restTemplate.getForObject(baseUrl +pathUrl, Object[].class); 
 		
 		logger.info(objs.toString());
@@ -53,9 +56,7 @@ public class QuestionClientController {
 		logger.info("inside QuestionClientController().getQuestionById()");
 		logger.info("url = "+ baseUrl + pathUrl + "/" +id); 
 		
-		RestTemplate restTemplate = new RestTemplate();
 		Object obj = restTemplate.getForObject(baseUrl +pathUrl+"/"+id, Object.class);
-		
 		
 		ModelAndView mv = new ModelAndView(); 
 		if (obj == null) {
@@ -79,7 +80,6 @@ public class QuestionClientController {
 		
 		logger.info("name object to add = " + question);
 		
-		RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_JSON);
 	    JSONObject jsonObj = new JSONObject();
@@ -102,7 +102,7 @@ public class QuestionClientController {
     public @ResponseBody ModelAndView deleteQuestion(@PathVariable int id) {
 		logger.info("inside QuestionClientController().deleteQuestion(), id is "+id);
 		logger.info("delete path = " + baseUrl +pathUrl+ "/" + id);
-		RestTemplate restTemplate = new RestTemplate();
+		
 		restTemplate.delete(baseUrl +pathUrl+ "/" + id);
 		
 		Object[] objs = restTemplate.getForObject(baseUrl +pathUrl, Object[].class); 
@@ -120,8 +120,6 @@ public class QuestionClientController {
 		logger.info("inside QuestionClientController().updateQuestion(), name is "+question);
 		logger.info("url = "+ baseUrl + pathUrl); 
 		logger.info("name object to update = " + question);
-		
-		RestTemplate restTemplate = new RestTemplate();
 		
 		restTemplate.put(baseUrl +pathUrl , Technology.class, question);
 		Object[] objs = restTemplate.getForObject(baseUrl +pathUrl, Object[].class); 

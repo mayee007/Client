@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -38,6 +39,9 @@ public class InfoClientController {
 	String pathUrl = "/infos"; 
 	private Logger logger = LoggerFactory.getLogger(InfoClientController.class);
 	
+	@Autowired
+	RestTemplate restTemplate; 
+	
 	@GetMapping()
 	public ModelAndView getAllInfos() {
 		logger.info("inside InfoClientController().getAllInfos()");
@@ -58,9 +62,7 @@ public class InfoClientController {
 		logger.info("inside InfoClientController().getInfoById()");
 		logger.info("url = "+ baseUrl + pathUrl + "/" +id); 
 		
-		RestTemplate restTemplate = new RestTemplate();
 		Object obj = restTemplate.getForObject(baseUrl +pathUrl+"/"+id, Object.class);
-		
 		
 		ModelAndView mv = new ModelAndView(); 
 		if (obj == null) {
@@ -105,7 +107,6 @@ public class InfoClientController {
 
         HttpEntity<?> request = new HttpEntity<>(req_payload, headers);
         
-        RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Info> response = restTemplate.postForEntity(baseUrl +pathUrl, request, Info.class);
 		
 		logger.info(response.getBody().toString()); 
@@ -129,7 +130,7 @@ public class InfoClientController {
     public @ResponseBody ModelAndView deleteInfo(@PathVariable int id) {
 		logger.info("inside InfoClientController().deleteInfo(), id is "+id);
 		logger.info("delete path = " + baseUrl +pathUrl+ "/" + id);
-		RestTemplate restTemplate = new RestTemplate();
+	
 		restTemplate.delete(baseUrl +pathUrl+ "/" + id);
 		
 		Object[] objs = restTemplate.getForObject(baseUrl +pathUrl, Object[].class); 
@@ -141,25 +142,47 @@ public class InfoClientController {
         return mv;         
     }
 	
-	@PutMapping("/{id}")
-    public @ResponseBody ModelAndView updateInfo(@PathVariable int id, 
-    				@ModelAttribute Info name) {
-		logger.info("inside InfoClientController().updateInfo(), name is "+name);
+	@PutMapping("/{infoId}")
+	public ModelAndView updateInfo(@PathVariable int infoId,
+			Map<String, Object> model, 
+			@RequestParam("technologyId") String techId,  
+			@RequestParam("subject") String subject, 
+			@RequestParam("description") String description) 
+	{
+		logger.info("inside InfoClientController().addInfo()");
 		logger.info("url = "+ baseUrl + pathUrl); 
-		logger.info("name object to update = " + name);
 		
-		RestTemplate restTemplate = new RestTemplate();
-		//restTemplate.put(baseUrl +pathUrl, name);
+		logger.info("subject = " + subject);
+		logger.info("description = " + description);
+		logger.info("technology ID = " + techId);
 		
-		restTemplate.put(baseUrl +pathUrl , Info.class, name);
-		Object[] objs = restTemplate.getForObject(baseUrl +pathUrl, Object[].class); 
-		
-        ModelAndView mv = new ModelAndView(); 
-        mv.addObject("allInfos", objs); 
-        mv.setViewName("infos/allInfos"); 
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
+        Map map = new HashMap<String, String>();
+        map.put("Content-Type", "application/json");
+
+        headers.setAll(map);
+
+        Map req_payload = new HashMap();
+        req_payload.put("id", infoId);
+        req_payload.put("technology", getTechnologyById(Integer.parseInt(techId)));
+        req_payload.put("subject", subject);
+        req_payload.put("description", description); 
+        req_payload.put("submitDate", new Date()); 
+        req_payload.put("modifiedDate", new Date()); 
+
+        HttpEntity<?> request = new HttpEntity<>(req_payload, headers);
         
+        // call put operation
+        restTemplate.put(baseUrl +pathUrl+"/"+infoId, request);
+		
+     // get all problems
+        Object[] objs = restTemplate.getForObject(baseUrl +pathUrl, Object[].class);
+        
+		ModelAndView mv = new ModelAndView(); 
+		mv.addObject("info", objs); 
+		mv.setViewName("infos/allInfos");
         return mv; 
-    }	
+    }
 	
 	
 	@GetMapping("/add")
@@ -171,8 +194,7 @@ public class InfoClientController {
         mv.setViewName("infos/addInfo"); 
         
         // get all technology as a list 
-        RestTemplate restTemplate = new RestTemplate();
-		Object[] objs = restTemplate.getForObject(baseUrl +"/techs", Object[].class); 
+        Object[] objs = restTemplate.getForObject(baseUrl +"/techs", Object[].class); 
 		
 		logger.info("all techs = " + objs.toString());
         mv.addObject("allTechs", objs); 
