@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<style>
+table, th, td {
+  border: 1px solid black;
+  white-space: pre
+}
+</style>
+</head>
+<body>
+    <h2> <p th:inline="text">Details for Question ID [[${question.questionId}]] </p> </h2>
+	<table border=1>
+	 
+      <tr><td>ID</td> <td th:text="${question.questionId}">1</td> </tr>
+      <tr><td>Question</td> <pre><td th:text="${question.question}">1</td> </pre></tr> 
+    </table>
+ </body>
+</html>

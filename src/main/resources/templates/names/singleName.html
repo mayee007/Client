@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<style>
+table, th, td {
+  border: 1px solid black;
+  white-space: pre
+}
+</style>
+</head>
+<body>
+    <h2> <p th:inline="text">Details for FullName, ID [[${fullName.id}]] </p> </h2>
+	<table border=1>
+	 
+      <tr><td>ID</td> <td th:text="${fullName.id}">1</td> </tr>
+      <tr><td>First Name</td> <td th:text="${fullName.firstName}">1</td> </tr> 
+      <tr><td>Last Name</td>  <td th:text="${fullName.lastName}">1</td> </tr> 
+      
+    </table>
+ </body>
+</html>

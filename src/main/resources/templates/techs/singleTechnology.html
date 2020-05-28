@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<style>
+table, th, td {
+  border: 1px solid black;
+  white-space: pre
+}
+</style>
+</head>
+<body>
+    <h2> <p th:inline="text">Details for Technology ID [[${tech.technologyId}]] </p> </h2>
+	<table border=1>
+	 
+      <tr><td>Technology ID</td> <td th:text="${tech.technologyId}">1</td> </tr>
+      <tr><td>Technology Type</td> <td th:text="${tech.category}">1</td> </tr> 
+      <tr><td>Category</td>  <td th:text="${tech.technologyType}">1</td> </tr> 
+      
+    </table>
+ </body>
+</html>

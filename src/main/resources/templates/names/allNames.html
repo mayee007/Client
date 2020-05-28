@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<script>
+    function rowClicked(value) {
+        location.href = "/names/" + value;
+    }
+</script>
+<head lang="en">
+ 
+    <title>Information Website</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style>
+		table, th, td {
+		  border: 1px solid black;
+		  white-space: pre
+		}
+	</style>
+	
+	<script src="js/sortable.js"></script>
+	 
+</head>
+
+
+
+<body>
+<h2>All Names</h2>
+
+    <table border=1 class="sortable">
+	  <tr>
+	  <th>Name ID</th>
+	  <th>First Name</th>
+	  <th>Last Name</th>
+	  <tr th:each="fullName : ${allNames}" style="cursor: pointer"
+     	th:onclick="'javascript:rowClicked(\'' + ${fullName.id} + '\');'"
+     	onmouseover="this.bgColor ='#C0C0C0';this.style.cursor='pointer'" 
+	  	onmouseout="this.bgColor='';this.style.cursor='default'">
+	  	
+        <td th:text="${fullName.id}">1</td>
+        <td th:text="${fullName.firstName}">1</td>
+        <td th:text="${fullName.lastName}">1</td>
+
+      </tr>
+    </table>
+    
+</body>
+</html>

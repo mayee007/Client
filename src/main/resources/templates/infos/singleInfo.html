@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<style>
+table, th, td {
+  border: 1px solid black;
+  white-space: pre
+}
+</style>
+</head>
+<body>
+    
+    <h2> <p th:inline="text">Details for Info ID [[${info.id}]] </p> </h2>
+	<table border=1>
+	 
+      <tr><td>ID</td> <td th:text="${info.id}">1</td> </tr>
+      <tr><td>Subject</td> <td th:text="${info.subject}">1</td> </tr> 
+      <tr><td>Description</td> <td th:text="${info.description}">1</td> </tr> 
+      <tr><td>Category</td>  <td th:text="${info.technology.category}">1</td> </tr> 
+      <tr><td>Technology Type</td>  <td th:text="${info.technology.technologyType}">1</td> </tr>
+      <tr><td>Submit Date</td>  <td th:text="${info.submitDate}">1</td> </tr> 
+      <tr><td>Modified Date</td>  <td th:text="${info.modifiedDate}">1</td> </tr>  
+    </table>
+ </body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+	<h1>Add Information</h1>
+    
+    <form method="POST" action="/infos">
+	<table>
+	<tr>
+		<td>Subject</td> 
+		<td><input type="text" name="subject" size="80"/></td>
+	</tr>
+	<tr/><tr/><tr/>
+	<tr>
+		<td>Description</td> 
+		<td><textarea name="description" cols="80" rows="10"> </textarea></td>
+	</tr>
+	<tr/><tr/><tr/>
+	<tr>
+		<td> Select Technology</td>
+		<td> 
+			<select class="form-control" id="technologyId" name="technologyId">
+		        <option th:each="tech : ${allTechs}"
+		                th:value="${tech.technologyId}"
+		                th:text="${tech.category}+' : '+${tech.technologyType}"></option>
+		    </select>
+		</td>
+	</tr>
+	<tr/><tr/><tr/><tr/><tr/>
+	<tr>
+		<td colspan="3"><input name="Add Technology" value="submit" type="submit"></input></td> 
+	</tr>
+	</table>
+	
+	</form>
+ </body>
+</html>

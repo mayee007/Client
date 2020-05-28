@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<script>
+    function rowClicked(value) {
+        location.href = "/techs/" + value;
+    }
+</script>
+<head lang="en">
+ 
+    <title>Information Website</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style>
+		table, th, td {
+		  border: 1px solid black;
+		  white-space: pre
+		}
+	</style>
+		 
+</head>
+
+<body>
+<h2>All Technology</h2>
+
+    <table border=1 class="sortable">
+	  <tr>
+	  <th>Technology ID</th>
+	  <th>Technology</th>
+	  <th>Category</th>
+	  <tr th:each="tech : ${allTechs}" style="cursor: pointer"
+     	th:onclick="'javascript:rowClicked(\'' + ${tech.technologyId} + '\');'"
+     	onmouseover="this.bgColor ='#C0C0C0';this.style.cursor='pointer'" 
+	  	onmouseout="this.bgColor='';this.style.cursor='default'">
+	  	
+        <td th:text="${tech.technologyId}">1</td>
+        <td th:text="${tech.technologyType}">1</td>
+        <td th:text="${tech.category}">1</td>
+
+      </tr>
+    </table>
+    
+</body>
+</html>

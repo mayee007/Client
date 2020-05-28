@@ -1,0 +1,40 @@
+<html>
+<body>
+	<h1>Add Problem</h1>
+    
+    <form method="POST" action="/problems">
+	<table>
+	<tr>
+		<td>Problem</td> 
+		<td><input type="text" name="problem" size="80"/></td>
+	</tr>
+	<tr/><tr/><tr/>
+	<tr>
+		<td>Reason For Problem</td> 
+		<td><textarea name="reasonForProblem" cols="80" rows="10"> </textarea></td>
+	</tr>
+	<tr/><tr/><tr/>
+	<tr>
+		<td>Solution</td> 
+		<td><textarea name="solution" cols="80" rows="10"> </textarea></td>
+	</tr>
+	<tr/><tr/><tr/>
+	<tr>
+		<td> Select Technology</td>
+		<td> 
+			<select class="form-control" id="technologyId" name="technologyId">
+		        <option th:each="tech : ${allTechs}"
+		                th:value="${tech.technologyId}"
+		                th:text="${tech.category}+' : '+${tech.technologyType}"></option>
+		    </select>
+		</td>
+	</tr>
+	<tr/><tr/><tr/><tr/><tr/>
+	<tr>
+		<td colspan="3"><input name="Add Problem" value="submit" type="submit"></input></td> 
+	</tr>
+	</table>
+	
+	</form>
+ </body>
+</html>
