@@ -1,6 +1,6 @@
 timestamps {
 
-node ('master') { 
+node ('dd') { 
 
 	stage ('Names/Client_Postman - Checkout') {
  	 checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'yelekeri@gmail.com', url: 'https://github.com/mayee007/Client.git']]]) 
