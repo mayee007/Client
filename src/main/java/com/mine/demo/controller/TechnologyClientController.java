@@ -1,4 +1,8 @@
-package com.mine.demo.controller;
+ package com.mine.demo.controller;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -6,8 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -18,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.mine.SpringDataTest.Model.Info;
 import com.mine.SpringDataTest.Model.Technology;
 
 import net.minidev.json.JSONObject;
@@ -81,21 +91,35 @@ public class TechnologyClientController {
 		logger.info("technology Type is " + tech.getTechnologyType());
 		logger.info("Category  is " + tech.getCategory());
 		
-		HttpHeaders headers = new HttpHeaders();
-	    headers.setContentType(MediaType.APPLICATION_JSON);
-	    JSONObject jsonObj = new JSONObject();
-	    jsonObj.put("category", tech.getCategory());
-	    jsonObj.put("technologyType", tech.getTechnologyType()); 
-	   
-		HttpEntity<String> request = 
-			      new HttpEntity<String>(jsonObj.toString(), headers);
-		Object obj = restTemplate.postForEntity(baseUrl +pathUrl, request, Object.class);
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
+        Map map = new HashMap<String, String>();
+        map.put("Content-Type", "application/json");
+
+        headers.setAll(map);
+
+        Map req_payload = new HashMap();
+        req_payload.put("category", tech.getCategory()); 
+        req_payload.put("technologyType", tech.getTechnologyType()); 
+
+        HttpEntity<?> request = new HttpEntity<>(req_payload, headers);
+        
+        ResponseEntity<Technology> response = restTemplate.postForEntity(baseUrl +pathUrl, request, Technology.class);
 		
-		logger.info(obj.toString()); 
+		logger.info(response.toString()); 
 		
 		ModelAndView mv = new ModelAndView(); 
-		mv.addObject("tech", obj); 
-		mv.setViewName("techs/singleTechnology");
+		logger.info("status code =" + response.getStatusCode());
+		if (response.getStatusCode() != HttpStatus.OK) {
+			mv.setViewName("NotFound");
+			mv.addObject("recordType", "Technology");
+			mv.addObject("id", 0); 
+			return mv; 
+		}		
+		
+		Object[] objs = restTemplate.getForObject(baseUrl +pathUrl, Object[].class); 
+
+        mv.addObject("allTechs", objs); 
+        mv.setViewName("techs/allTechs"); 
         
         return mv; 
     }

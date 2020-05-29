@@ -1,12 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<style>
-table, th, td {
-  border: 1px solid black;
-  white-space: pre
-}
-</style>
+	<link th:href="@{/styles/allTableStyle.css}" rel="stylesheet" />
 </head>
 <body>
     <h2> <p th:inline="text">Details for Technology ID [[${tech.technologyId}]] </p> </h2>

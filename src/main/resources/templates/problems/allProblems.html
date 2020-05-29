@@ -9,20 +9,15 @@
  
     <title>Problem Website</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <style>
-		table, th, td {
-		  border: 1px solid black;
-		  white-space: pre;
-		}		
-	</style>
 
-    <script src="js/sortable.js"></script>
+
+	<script type="text/javascript" th:src="@{/js/tableSort.js}"></script>
 </head>
 
 <body>
 <h2>Information website</h2>
 
-    <table border=1 class="sortable">
+    <table border=1 class="sortable searchable">
 	  <tr>
 	  <th>Problem ID</th>
 	  <th>Problem</th>
