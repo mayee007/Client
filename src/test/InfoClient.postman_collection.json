@@ -110,28 +110,6 @@
 						"description": ""
 					},
 					"response": []
-				},
-				{
-					"name": "deleteInfo",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"tests[\"Status code is 200\"] = responseCode.code === 200;"
-								]
-							}
-						}
-					],
-					"request": {
-						"url": "{{URL}}/api/info/164",
-						"method": "DELETE",
-						"header": [],
-						"body": {},
-						"description": ""
-					},
-					"response": []
 				}
 			]
 		}
