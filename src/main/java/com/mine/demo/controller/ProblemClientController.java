@@ -54,7 +54,9 @@ public class ProblemClientController {
 		
         ModelAndView mv = new ModelAndView(); 
         mv.addObject("allProblems", objs); 
-        mv.setViewName("problems/allProblems"); 
+        mv.setViewName("problems/allProblems");
+        
+        logger.info("got all problems "+objs);
         
         return mv; 
 	}
@@ -200,7 +202,7 @@ public class ProblemClientController {
         // get all technology as a list 
         Object[] objs = restTemplate.getForObject(baseUrl +"/techs", Object[].class); 
 		
-		logger.info("all techs = " + objs.toString());
+		//logger.info("all techs = " + objs.toString());
         mv.addObject("allTechs", objs); 
         
         return mv; 

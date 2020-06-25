@@ -196,7 +196,7 @@ public class InfoClientController {
         // get all technology as a list 
         Object[] objs = restTemplate.getForObject(baseUrl +"/techs", Object[].class); 
 		
-		logger.info("all techs = " + objs.toString());
+		//logger.info("all techs = " + objs.toString());
         mv.addObject("allTechs", objs); 
         
         return mv; 

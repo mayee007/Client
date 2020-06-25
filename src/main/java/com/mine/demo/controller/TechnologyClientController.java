@@ -56,6 +56,7 @@ public class TechnologyClientController {
         mv.addObject("allTechs", objs); 
         mv.setViewName("techs/allTechs"); 
         
+        logger.info("got all tech objects " + objs);
         return mv; 
 	}
 

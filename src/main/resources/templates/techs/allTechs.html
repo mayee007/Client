@@ -31,20 +31,13 @@
 </head>
 
 <body>
-<h2>All Technology</h2>
-
-	    <b>Search the table for :  
-          <input id="gfg" type="text" 
-                 placeholder="Search here"> 
-        </b> 
-        <br> 
-        <br> 
+<h2>All Technology</h2><br>       
         
     <table border=1 class="sortable">
 	  <tr>
 	  <th>Technology ID</th>
 	  <th>Technology</th>
-	  <th>Category</th>
+	  <th>Category</th> </tr>
 	  <tr th:each="tech : ${allTechs}" style="cursor: pointer"
      	th:onclick="'javascript:rowClicked(\'' + ${tech.technologyId} + '\');'"
      	onmouseover="this.bgColor ='#C0C0C0';this.style.cursor='pointer'" 
@@ -53,7 +46,6 @@
         <td th:text="${tech.technologyId}">1</td>
         <td th:text="${tech.technologyType}">1</td>
         <td th:text="${tech.category}">1</td>
-
       </tr>
     </table>
         
