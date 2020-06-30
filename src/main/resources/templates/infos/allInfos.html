@@ -21,10 +21,10 @@
 	  <th>Info ID</th>
 	  <th>Subject</th>
 	  <!--   <th>Description</th> -->
-	  <th>Submit Date</th>
-	  <th>Modified Date</th>
 	  <th>Technology Category</th>
 	  <th>Technology Type</th>
+	  <th>Submit Date</th>
+	  <th>Modified Date</th>
 	  		
 	  <tr th:each="info : ${allInfos}" style="cursor: pointer"
      	th:onclick="'javascript:rowClicked(\'' + ${info.id} + '\');'"
@@ -34,10 +34,11 @@
         <td th:text="${info.id}">1</td>
         <td th:text="${info.subject}">1</td>
         <!--  <td th:text="${info.description}">1</td> -->
-        <td th:text="${info.submitDate}">1</td>
-        <td th:text="${info.modifiedDate}">1</td>
         <td th:text="${info.technology.category}">1</td>
         <td th:text="${info.technology.technologyType}">1</td>
+        <td th:text="${info.submitDate}">1</td>
+        <td th:text="${info.modifiedDate}">1</td>
+      
       </tr>
       
 	</table>

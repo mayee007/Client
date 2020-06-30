@@ -23,10 +23,11 @@
 	  <th>Problem</th>
 	  <!-- <th>Reason For Problem</th>
 	   <th>Solution</th> -->
-	  <th>Submit Date</th>
-	  <th>Modified Date</th>
 	  <th>Technology Category</th>
 	  <th>Technology Type</th>
+	  <th>Submit Date</th>
+	  <th>Modified Date</th>
+	  
 	  <tr th:each="problem : ${allProblems}" style="cursor: pointer"
      	th:onclick="'javascript:rowClicked(\'' + ${problem.id} + '\');'"
      	onmouseover="this.bgColor ='#C0C0C0';this.style.cursor='pointer'" 
@@ -35,10 +36,11 @@
         <td th:text="${problem.problem}">1</td>
         <!--  <td th:text="${problem.reasonForProblem}">1</td>
         <td th:text="${problem.solution}">1</td> -->
-        <td th:text="${problem.submitDate}">1</td>
-        <td th:text="${problem.modifiedDate}">1</td>
+        
         <td th:text="${problem.technology.category}">1</td>
         <td th:text="${problem.technology.technologyType}">1</td>
+        <td th:text="${problem.submitDate}">1</td>
+        <td th:text="${problem.modifiedDate}">1</td>
       </tr>
       
 	</table>
