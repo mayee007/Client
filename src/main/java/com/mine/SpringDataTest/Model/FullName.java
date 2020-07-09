@@ -1,8 +1,13 @@
 package com.mine.SpringDataTest.Model;
+import java.io.Serializable;
 
-public class FullName {
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
 
+@RedisHash("FullName")
+public class FullName implements Serializable {
 
+	@Id //this makes the id as primary key 
 	int id; 
 	
 	String firstName; 

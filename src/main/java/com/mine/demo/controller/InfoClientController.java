@@ -27,6 +27,9 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 import com.mine.SpringDataTest.Model.Info;
 import com.mine.SpringDataTest.Model.Technology;
+import com.mine.SpringDataTest.Model.TestClass;
+import com.mine.demo.service.InfoRepo;
+import com.mine.demo.service.TestClassRepo;
 import com.mine.SpringDataTest.Model.Info;
 
 @Controller
@@ -41,6 +44,12 @@ public class InfoClientController {
 	
 	@Autowired
 	RestTemplate restTemplate; 
+	
+	@Autowired 
+	InfoRepo redisRepo; 
+	
+	@Autowired 
+	TestClassRepo testClassRepo; 
 	
 	@GetMapping()
 	public ModelAndView getAllInfos() {
@@ -70,7 +79,16 @@ public class InfoClientController {
 			mv.addObject("recordType", "Info"); 
 			mv.setViewName("NotFound");
 			logger.info("Object not found with ID "+ id);
-		} else {		
+		} else {	
+			// saving record also in Redis 
+			logger.info("going to store in redis");
+			Info info = restTemplate.getForObject(baseUrl +pathUrl+"/"+id, Info.class);
+			
+			TestClass temp = new TestClass(5, "hello"); 
+			testClassRepo.save(temp); 
+			
+			redisRepo.save(info); 
+			
 			mv.addObject("info", obj); 
 			mv.setViewName("infos/singleInfo");
 			logger.info("after call, Info = "+obj.toString());			

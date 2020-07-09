@@ -1,5 +1,9 @@
 package com.mine.SpringDataTest.Model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
+
+//@RedisHash("Technology")
 public class Technology implements java.io.Serializable {
 	
 	int technologyId;

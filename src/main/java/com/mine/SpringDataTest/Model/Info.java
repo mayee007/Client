@@ -2,10 +2,13 @@ package com.mine.SpringDataTest.Model;
 
 import java.util.Date;
 
+import org.springframework.data.redis.core.RedisHash;
+
+@RedisHash("Info")
 public class Info implements java.io.Serializable {
 	int id; 
 	
-	String subject; 
+	String subject;
 	
 	String description; 
 	
