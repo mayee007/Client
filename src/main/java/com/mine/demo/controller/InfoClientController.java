@@ -71,27 +71,23 @@ public class InfoClientController {
 		logger.info("inside InfoClientController().getInfoById()");
 		logger.info("url = "+ baseUrl + pathUrl + "/" +id); 
 		
-		Object obj = restTemplate.getForObject(baseUrl +pathUrl+"/"+id, Object.class);
+		Info info = restTemplate.getForObject(baseUrl +pathUrl+"/"+id, Info.class);
 		
 		ModelAndView mv = new ModelAndView(); 
-		if (obj == null) {
+		if (info == null) {
 			mv.addObject("id", id); 
 			mv.addObject("recordType", "Info"); 
 			mv.setViewName("NotFound");
 			logger.info("Object not found with ID "+ id);
 		} else {	
 			// saving record also in Redis 
-			logger.info("going to store in redis");
-			Info info = restTemplate.getForObject(baseUrl +pathUrl+"/"+id, Info.class);
-			
-			TestClass temp = new TestClass(5, "hello"); 
-			testClassRepo.save(temp); 
-			
+			//Info info = restTemplate.getForObject(baseUrl +pathUrl+"/"+id, Info.class);
+			logger.info("saving Info:" + info.getId() + " to Redis cluster");
 			redisRepo.save(info); 
 			
-			mv.addObject("info", obj); 
+			mv.addObject("info", info); 
 			mv.setViewName("infos/singleInfo");
-			logger.info("after call, Info = "+obj.toString());			
+			//logger.info("after call, Info = "+info.toString());			
 		}
         
         return mv; 
@@ -193,7 +189,7 @@ public class InfoClientController {
         // call put operation
         restTemplate.put(baseUrl +pathUrl+"/"+infoId, request);
 		
-     // get all problems
+        // get all infos
         Object[] objs = restTemplate.getForObject(baseUrl +pathUrl, Object[].class);
         
 		ModelAndView mv = new ModelAndView(); 

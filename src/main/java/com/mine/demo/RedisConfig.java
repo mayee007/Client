@@ -25,6 +25,8 @@ public class RedisConfig {
         RedisStandaloneConfiguration redisStandaloneConfiguration 
         	= new RedisStandaloneConfiguration(redisHost, redisPort);
         redisStandaloneConfiguration.setDatabase(0);
+        System.out.println("inside RedisConfig, host"+redisHost);
+        System.out.println("port"+redisPort);
         return new JedisConnectionFactory(redisStandaloneConfiguration);
     }
 
