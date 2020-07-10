@@ -31,8 +31,8 @@ public class RedisConfig {
     }
 
 	@Bean
-	public RedisTemplate<Object, Object> redisTemplate() {
-		  RedisTemplate<Object, Object> template = new RedisTemplate<Object, Object>();
+	public RedisTemplate<String, Object> redisTemplate() {
+		  RedisTemplate<String, Object> template = new RedisTemplate<String, Object>();
 		  template.setEnableTransactionSupport(true);
 		  template.setConnectionFactory(connectionFactory());
 		  return template; 
