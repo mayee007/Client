@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -71,13 +72,21 @@ public class InfoClientController {
         return mv; 
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping("/{id}")	
+	@Cacheable(value="INFO", key="#id")
     public @ResponseBody ModelAndView getInfoById(@PathVariable int id) {
 		logger.info("inside InfoClientController().getInfoById()");
 		logger.info("url = "+ baseUrl + pathUrl + "/" +id); 
 		
-		Info info = restTemplate.getForObject(baseUrl +pathUrl+"/"+id, Info.class);
-		
+		Info info = new Info(); 
+		// before calling, verify whether it exists in Redis 
+		if (redisRepo.existsById(id)) {
+			logger.info("got a hit for Info record "+id+" in Redis");
+			redisRepo.findById(id); 
+		} else {
+		 	info = restTemplate.getForObject(baseUrl +pathUrl+"/"+id, Info.class);
+		}
+	
 		ModelAndView mv = new ModelAndView(); 
 		if (info == null) {
 			mv.addObject("id", id); 
@@ -87,8 +96,8 @@ public class InfoClientController {
 		} else {	
 			// saving record in Redis 
 			//Info info = restTemplate.getForObject(baseUrl +pathUrl+"/"+id, Info.class);
-			logger.info("saving Info:" + info.getId() + " to Redis cluster");
-			redisRepo.save(info); 
+			//logger.info("saving Info:" + info.getId() + " to Redis cluster");
+			//redisRepo.save(info); 
 			
 			mv.addObject("info", info); 
 			mv.setViewName("infos/singleInfo");
