@@ -30,7 +30,6 @@ import com.mine.SpringDataTest.Model.Technology;
 import com.mine.SpringDataTest.Model.TestClass;
 import com.mine.demo.service.InfoRepo;
 import com.mine.demo.service.TestClassRepo;
-import com.mine.SpringDataTest.Model.Info;
 
 @Controller
 @RequestMapping("/infos")
@@ -57,8 +56,14 @@ public class InfoClientController {
 		logger.info("url = "+ baseUrl + pathUrl); 
 		
 		RestTemplate restTemplate = new RestTemplate();
-		Object[] objs = restTemplate.getForObject(baseUrl +pathUrl, Object[].class); 
 		
+		Info[] objs = restTemplate.getForObject(baseUrl +pathUrl, Info[].class); 
+		
+		// store all objects in redis 
+		logger.info("storing all infos in Redis");
+		for (Info info: objs) {
+			redisRepo.save(info);  
+		}
         ModelAndView mv = new ModelAndView(); 
         mv.addObject("allInfos", objs); 
         mv.setViewName("infos/allInfos"); 
@@ -80,7 +85,7 @@ public class InfoClientController {
 			mv.setViewName("NotFound");
 			logger.info("Object not found with ID "+ id);
 		} else {	
-			// saving record also in Redis 
+			// saving record in Redis 
 			//Info info = restTemplate.getForObject(baseUrl +pathUrl+"/"+id, Info.class);
 			logger.info("saving Info:" + info.getId() + " to Redis cluster");
 			redisRepo.save(info); 
@@ -133,6 +138,10 @@ public class InfoClientController {
 			mv.addObject("id", 0); 
 			return mv; 
 		}		
+		
+		// add object into redis 
+		logger.info("storing Info object info redis");				
+		redisRepo.save(response.getBody()); 
 		
 		mv.addObject("info", response.getBody()); 
 		mv.setViewName("infos/singleInfo");
