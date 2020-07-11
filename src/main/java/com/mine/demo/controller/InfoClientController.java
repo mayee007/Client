@@ -82,7 +82,7 @@ public class InfoClientController {
 		// before calling, verify whether it exists in Redis 
 		if (redisRepo.existsById(id)) {
 			logger.info("got a hit for Info record "+id+" in Redis");
-			redisRepo.findById(id); 
+			//redisRepo.findById(id); 
 		} else {
 		 	info = restTemplate.getForObject(baseUrl +pathUrl+"/"+id, Info.class);
 		}
