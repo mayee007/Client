@@ -61,10 +61,10 @@ public class InfoClientController {
 		Info[] objs = restTemplate.getForObject(baseUrl +pathUrl, Info[].class); 
 		
 		// store all objects in redis 
-		logger.info("storing all infos in Redis");
-		for (Info info: objs) {
-			redisRepo.save(info);  
-		}
+		//logger.info("storing all infos in Redis");
+		//for (Info info: objs) {
+		//	redisRepo.save(info);  
+		//}
         ModelAndView mv = new ModelAndView(); 
         mv.addObject("allInfos", objs); 
         mv.setViewName("infos/allInfos"); 
@@ -80,12 +80,12 @@ public class InfoClientController {
 		
 		Info info = new Info(); 
 		// before calling, verify whether it exists in Redis 
-		if (redisRepo.existsById(id)) {
-			logger.info("got a hit for Info record "+id+" in Redis");
+		//if (redisRepo.existsById(id)) {
+		//	logger.info("got a hit for Info record "+id+" in Redis");
 			//redisRepo.findById(id); 
-		} else {
+		//} else {
 		 	info = restTemplate.getForObject(baseUrl +pathUrl+"/"+id, Info.class);
-		}
+		//}
 	
 		ModelAndView mv = new ModelAndView(); 
 		if (info == null) {
