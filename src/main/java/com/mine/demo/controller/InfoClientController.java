@@ -28,9 +28,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 import com.mine.SpringDataTest.Model.Info;
 import com.mine.SpringDataTest.Model.Technology;
-import com.mine.SpringDataTest.Model.TestClass;
-import com.mine.demo.service.InfoRepo;
-import com.mine.demo.service.TestClassRepo;
+import com.mine.demo.service.InfoService;
 
 @Controller
 @RequestMapping("/infos")
@@ -45,26 +43,16 @@ public class InfoClientController {
 	@Autowired
 	RestTemplate restTemplate; 
 	
-	@Autowired 
-	InfoRepo redisRepo; 
-	
-	@Autowired 
-	TestClassRepo testClassRepo; 
+	//@Autowired 
+	//InfoService service; 
 	
 	@GetMapping()
 	public ModelAndView getAllInfos() {
 		logger.info("inside InfoClientController().getAllInfos()");
 		logger.info("url = "+ baseUrl + pathUrl); 
 		
-		RestTemplate restTemplate = new RestTemplate();
-		
 		Info[] objs = restTemplate.getForObject(baseUrl +pathUrl, Info[].class); 
 		
-		// store all objects in redis 
-		//logger.info("storing all infos in Redis");
-		//for (Info info: objs) {
-		//	redisRepo.save(info);  
-		//}
         ModelAndView mv = new ModelAndView(); 
         mv.addObject("allInfos", objs); 
         mv.setViewName("infos/allInfos"); 
@@ -73,19 +61,11 @@ public class InfoClientController {
 	}
 
 	@GetMapping("/{id}")	
-	@Cacheable(value="INFO", key="#id")
-    public @ResponseBody ModelAndView getInfoById(@PathVariable int id) {
+	 public @ResponseBody ModelAndView getInfoById(@PathVariable int id) {
 		logger.info("inside InfoClientController().getInfoById()");
 		logger.info("url = "+ baseUrl + pathUrl + "/" +id); 
 		
-		Info info = new Info(); 
-		// before calling, verify whether it exists in Redis 
-		//if (redisRepo.existsById(id)) {
-		//	logger.info("got a hit for Info record "+id+" in Redis");
-			//redisRepo.findById(id); 
-		//} else {
-		 	info = restTemplate.getForObject(baseUrl +pathUrl+"/"+id, Info.class);
-		//}
+		Info info = restTemplate.getForObject(baseUrl +pathUrl+"/"+id, Info.class);
 	
 		ModelAndView mv = new ModelAndView(); 
 		if (info == null) {
@@ -150,7 +130,7 @@ public class InfoClientController {
 		
 		// add object into redis 
 		logger.info("storing Info object info redis");				
-		redisRepo.save(response.getBody()); 
+		//redisRepo.save(response.getBody()); 
 		
 		mv.addObject("info", response.getBody()); 
 		mv.setViewName("infos/singleInfo");

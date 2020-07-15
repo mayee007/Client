@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
-@EnableCaching
+@EnableCaching(proxyTargetClass = true)
 public class ClientApplication {
 
 	public static void main(String[] args) {

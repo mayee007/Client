@@ -1,7 +1,9 @@
 package com.mine.demo;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
@@ -37,7 +39,16 @@ public class RedisConfig {
 		  template.setConnectionFactory(connectionFactory());
 		  return template; 
 	}
-    
+	
+	@Bean
+	public RedisCacheManager cacheManager() {
+		RedisCacheManager rcm = RedisCacheManager.builder(connectionFactory())
+		  //.cacheDefaults(cacheConfiguration())
+		  .transactionAware()
+		  .build();
+		return rcm;
+	}  
+	
     /* 
     @Bean 
     public RedisTemplate<String, Technology> redisTemplateTechnology() {
