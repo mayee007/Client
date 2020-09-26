@@ -5,8 +5,9 @@
 </head>
 <body>
     
+    <marquee behavior="slide" direction="left" BGCOLOR=Pink>welcome to my channgel</marquee>
     <h2> <p th:inline="text">Details for Info ID [[${info.id}]] </p> </h2>
-	<table border=1>
+    <table border=1>
 	 
       <tr><td>ID</td> <td th:text="${info.id}">1</td> </tr>
       <tr><td>Subject</td> <td th:text="${info.subject}">1</td> </tr> 
@@ -14,7 +15,12 @@
       <tr><td>Category</td>  <td th:text="${info.technology.category}">1</td> </tr> 
       <tr><td>Technology Type</td>  <td th:text="${info.technology.technologyType}">1</td> </tr>
       <tr><td>Submit Date</td>  <td th:text="${info.submitDate}">1</td> </tr> 
-      <tr><td>Modified Date</td>  <td th:text="${info.modifiedDate}">1</td> </tr>  
+      <tr><td>Modified Date</td>  <td th:text="${info.modifiedDate}">1</td> </tr> 
+      <tr/><tr/><tr/>
+      <tr>
+		<td colspan="3"><a th:href="@{'delete'(id=${info.id})}"> Delete </td> 
+	  </tr> 
     </table>
+    
  </body>
 </html>

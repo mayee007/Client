@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<title>Example</title>
+
+<!-- Styles --> 
+<style>
+.example1 {
+ height: 50px;  
+ overflow: hidden;
+ position: relative;
+}
+.example1 h3 {
+ font-size: 3em;
+ color: blue;
+ position: absolute;
+ width: 100%;
+ height: 100%;
+ margin: 0;
+ line-height: 50px;
+ text-align: center;
+ /* Starting position */
+ -moz-transform:translateX(100%);
+ -webkit-transform:translateX(100%);    
+ transform:translateX(100%);
+ /* Apply animation to this element */  
+ -moz-animation: example1 15s linear infinite;
+ -webkit-animation: example1 15s linear infinite;
+ animation: example1 15s linear infinite;
+}
+/* Move it (define the animation) */
+@-moz-keyframes example1 {
+ 0%   { -moz-transform: translateX(100%); }
+ 100% { -moz-transform: translateX(-100%); }
+}
+@-webkit-keyframes example1 {
+ 0%   { -webkit-transform: translateX(100%); }
+ 100% { -webkit-transform: translateX(-100%); }
+}
+@keyframes example1 {
+ 0%   { 
+ -moz-transform: translateX(100%); /* Firefox bug fix */
+ -webkit-transform: translateX(100%); /* Firefox bug fix */
+ transform: translateX(100%);       
+ }
+ 100% { 
+ -moz-transform: translateX(-100%); /* Firefox bug fix */
+ -webkit-transform: translateX(-100%); /* Firefox bug fix */
+ transform: translateX(-100%); 
+ }
+}
+</style>
+
+<!-- HTML -->   
+<div class="example1">
+<marquee  bgcolor="#d9d9ff"  behavior="scroll" direction="left" scrollamount="9">
+<font color="red"> 
+ ನಮಸ್ಕಾರ, ನಾನು ಮಹೇಶ್ ಮಹಾದೇವ, ಕಾವೇರಿ ಕನ್ನಡ ಸಂಘ  ವಾಷಿಂಗ್ಟನ್ ಡಿಸಿ , maryland ಹಾಗೂ virginiada ಅಧ್ಯಕ್ಷ.ಕೋಗಿಲೆಯ ಗಾಯನಕೆ  ವಸಂತವೇ ಬೇಕು. ಆದರೆ ಕವಿ ಕೋಗಿಲೆಗಳ, ಕನ್ನಡದ  ಗಾನ ಗಂಧರ್ವರ ಗಾಯನ ಮಾಧುರ್ಯ - ನಿರಂತರ, ಚಿರಂತನ ಹಾಗೂ ನಿತ್ಯನೂತನ.COVID-19 ನಿಂದ ಕಂಗೆಟ್ಟು ಕುಳಿತಿರೋ  ಮೈ ಮನಸ್ಗಳ್ಗೆ  , ಪ್ರತೀ ವಾರ ಮುದುಡಿದ ಮನಗಳಿಗೆ  ಮುದನೀಡಿ, ಹೊಸ  ಹುರುಪನ್ನ ತುಂಬಿ,  ಕರೋನದ ಬಗೆಗಿನ ಕ್ರೂರ ನೆನಪನ್ನೇ ಮರೆಸೋದಕ್ಕೆ  ಶತ ಪ್ರಯತ್ನ ಮಾಡ್ತಿರೋ music mansion ರವರ ಈ ಸಾಧನೆ ನಿಜಕ   ಉತ್ಕೃಷ್ಟ. 
+</font>
+</marquee>
+</div>

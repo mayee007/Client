@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<title>Example</title>
+
+<!-- Styles --> 
+<style>
+.example1 {
+ height: 50px;  
+ overflow: hidden;
+ position: relative;
+}
+.example1 h3 {
+ font-size: 3em;
+ color: blue;
+ position: absolute;
+ width: 100%;
+ height: 100%;
+ margin: 0;
+ line-height: 50px;
+ text-align: center;
+ /* Starting position */
+ -moz-transform:translateX(100%);
+ -webkit-transform:translateX(100%);    
+ transform:translateX(100%);
+ /* Apply animation to this element */  
+ -moz-animation: example1 15s linear infinite;
+ -webkit-animation: example1 15s linear infinite;
+ animation: example1 15s linear infinite;
+}
+/* Move it (define the animation) */
+@-moz-keyframes example1 {
+ 0%   { -moz-transform: translateX(100%); }
+ 100% { -moz-transform: translateX(-100%); }
+}
+@-webkit-keyframes example1 {
+ 0%   { -webkit-transform: translateX(100%); }
+ 100% { -webkit-transform: translateX(-100%); }
+}
+@keyframes example1 {
+ 0%   { 
+ -moz-transform: translateX(100%); /* Firefox bug fix */
+ -webkit-transform: translateX(100%); /* Firefox bug fix */
+ transform: translateX(100%);       
+ }
+ 100% { 
+ -moz-transform: translateX(-100%); /* Firefox bug fix */
+ -webkit-transform: translateX(-100%); /* Firefox bug fix */
+ transform: translateX(-100%); 
+ }
+}
+</style>
+
+<!-- HTML -->   
+<div class="example1">
+<marquee  behavior="scroll" direction="left" scrollamount="9">
+<font color="red"> 
+ಈ ಕಾರ್ಯಕ್ರಮದ ಥರಾನೇ ಇನ್ನೂ ಅನೇಕ ಕಲಾಭಿಜ್ಞರು, ಕಲಾಪ್ರಭುಗಳು ಹೊರಬಂದು ಈ covid ಹೆಮ್ಮಾರಿಯನ್ನ ಹೊಡೆದೋಡಿಸಲು ಶಕ್ತಿ ತುಂಬಲಿ, ಜೊತೆಗೆ ತಮ್ಮ ಕಲಾ ಪ್ರೌಡಿಮೆಯನ್ನ ಮೆರೆಯಲಿ, ಎಂಬುದೇ ನಮ್ಮೆಲ್ಲರ ಬಯಕೆ. ಹಾಗೂ ನಮ್ಮ ಕಾವೇರಿ ಕನ್ನಡ ಸಂಘ ಈ ಕಾರ್ಯದಲ್ಲಿ music mansion ಜೊತೆಲಿ  ಕೈ ಜೋಡಿಸಿದ್ದಕ್ಕೆ  ಹೆಮ್ಮೆ ಇದೆ. ಈ ಉನ್ನತ ಕಾರ್ಯವನ್ನು ಕೈಗೆತ್ತಿಕೊಂಡ ಮ್ಯೂಸಿಕ್  ಇನ್ನೂ ಹೆಚ್ಚಿನ ಯಶಸ್ಸು ಸಿಗಲಿ ಅಂತ ಆಶಿಸ್ತೀನಿ.  ಜೈ ಕನ್ನಡ ಜೈ ಕರ್ನಾಟಕ. 
+</font>
+</marquee>
+</div>

@@ -61,8 +61,9 @@ public class InfoClientController {
 	}
 
 	@GetMapping("/{id}")	
-	 public @ResponseBody ModelAndView getInfoById(@PathVariable int id) {
+	 public @ResponseBody ModelAndView getInfoById(@PathVariable String id) {
 		logger.info("inside InfoClientController().getInfoById()");
+		logger.info("id = " + id); 
 		logger.info("url = "+ baseUrl + pathUrl + "/" +id); 
 		
 		Info info = restTemplate.getForObject(baseUrl +pathUrl+"/"+id, Info.class);
@@ -138,8 +139,8 @@ public class InfoClientController {
     }
 	
 	
-	@DeleteMapping("/{id}")
-    public @ResponseBody ModelAndView deleteInfo(@PathVariable int id) {
+	@GetMapping("/delete")
+    public @ResponseBody ModelAndView deleteInfo(@RequestParam String id) {
 		logger.info("inside InfoClientController().deleteInfo(), id is "+id);
 		logger.info("delete path = " + baseUrl +pathUrl+ "/" + id);
 	
@@ -210,6 +211,28 @@ public class InfoClientController {
 		
 		//logger.info("all techs = " + objs.toString());
         mv.addObject("allTechs", objs); 
+        
+        return mv; 
+	}
+	
+	@GetMapping("/scroll1")
+	public ModelAndView scrollInfo() {
+		logger.info("inside InfoClientController().scrollInfo()");
+		logger.info("url = "+ baseUrl + pathUrl); 
+		
+        ModelAndView mv = new ModelAndView(); 
+        mv.setViewName("infos/scroll1");        
+        
+        return mv; 
+	}
+	
+	@GetMapping("/scroll2")
+	public ModelAndView scroll2Info() {
+		logger.info("inside InfoClientController().scrollInfo()");
+		logger.info("url = "+ baseUrl + pathUrl); 
+		
+        ModelAndView mv = new ModelAndView(); 
+        mv.setViewName("infos/scroll2");        
         
         return mv; 
 	}
